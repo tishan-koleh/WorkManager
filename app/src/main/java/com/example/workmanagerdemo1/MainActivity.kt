@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
+import androidx.work.Constraints
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 
@@ -27,8 +28,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun oneTimeWorkRequest() {
+        val constraints = Constraints
+            .Builder()
+            .setRequiresCharging(true)
+            .build()
         val uploadRequest = OneTimeWorkRequest
             .Builder(UploadWorker::class.java)
+            .setConstraints(constraints)
             .build()
         WorkManager
             .getInstance(applicationContext)
